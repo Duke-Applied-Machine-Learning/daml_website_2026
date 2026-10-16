@@ -1,0 +1,196 @@
+---
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/PageHero.astro";
+import SectionHead from "@/components/SectionHead.astro";
+import Cta from "@/components/Cta.astro";
+import { site } from "@/data/site";
+import { syllabus, structureItems, requirementItems } from "@/data/aitp";
+
+import heroPhoto from "@/assets/prattschoolofeng.jpg";
+
+// The project phase opens between Weeks 2 and 3 — it isn't a lesson, so it
+// lives here rather than in the shared syllabus data.
+const projectPhase = {
+  after: 2,
+  label: "After Week 2",
+  topic: "Choose your final project track",
+  flag: "Project phase begins",
+  bullets: [
+    "Members select a real partner-aligned brief and form project teams with DAML mentors.",
+    "Milestones, tech stack guardrails, and accountability cadences are set before Week 3.",
+  ],
+};
+
+---
+
+<Base
+  title="AI Training Program"
+  description="AITP is the structured entry point into DAML engineering — ten weeks from ML fundamentals through transformers, generative models, and agents, ending in a judged project showcase."
+  solidNav
+>
+  <PageHero
+    badge="Recruitment"
+    title={`The AI Training <span class="mark">Program</span>`}
+    image={heroPhoto}
+    imageAlt="The Pratt School of Engineering at Duke"
+  >
+    <p slot="lede" class="phero__lede">
+      The structured entry point into DAML engineering. Members who complete
+      AITP transition directly into internal and client-facing project teams.
+    </p>
+
+    <Fragment slot="actions">
+      <a
+        class="btn btn--primary"
+        href={site.aitpUrl}
+        target="_blank"
+        rel="noopener"
+      >
+        AITP Site
+        <span class="ico" aria-hidden="true">→</span>
+      </a>
+      <a
+        class="btn btn--ghost"
+        href={site.joinFormUrl}
+        target="_blank"
+        rel="noopener"
+      >
+        Join us
+      </a>
+    </Fragment>
+  </PageHero>
+
+  <!-- ==================== OVERVIEW ==================== -->
+  <section class="section section--under-plate">
+    <div class="wrap">
+      <SectionHead
+        badge="Program overview"
+        title={`The pathway into <span class="mark">DAML engineering</span>`}
+        lede="DAML's AI Training Program (AITP) is the structured entry point for members to become engineers within the organization."
+      />
+
+      <div class="cards">
+        <article class="card reveal">
+          <span class="chip">01</span>
+          <h3 class="h3">Everyone starts here</h3>
+          <p>
+            All members complete AITP before joining internal and client project
+            teams. The program establishes the technical foundation and
+            development workflow required to contribute to real machine learning
+            systems.
+          </p>
+        </article>
+        <article class="card reveal reveal--2">
+          <span class="chip">02</span>
+          <h3 class="h3">Then you ship</h3>
+          <p>
+            Members progress through training, evaluation, and a final project
+            before transitioning into active engineering roles within DAML.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CURRICULUM ==================== -->
+  <section class="section section--alt">
+    <div class="wrap">
+      <SectionHead
+        badge="Curriculum"
+        title="Syllabus"
+        lede="Ten weeks, from first principles through the architectures behind today's models — with the project phase opening after Week 2. Lesson recordings live on the AITP site."
+      />
+
+      <div class="rows">
+        {
+          syllabus.map((w) => (
+            <>
+              <div class="row reveal">
+                <span class="row__key">Week {w.week}</span>
+                <span class="row__body">
+                  {w.sessions.map((session) => (
+                    <>
+                      <h3>{session.theme}</h3>
+                      <p>{session.topics}</p>
+                    </>
+                  ))}
+                </span>
+              </div>
+              {w.week === projectPhase.after && (
+                <div class="row row--mark reveal">
+                  <span class="row__key">{projectPhase.label}</span>
+                  <span class="row__body">
+                    <span class="row__flag">{projectPhase.flag}</span>
+                    <h3>{projectPhase.topic}</h3>
+                    {projectPhase.bullets.map((b) => (
+                      <p>{b}</p>
+                    ))}
+                  </span>
+                </div>
+              )}
+            </>
+          ))
+        }
+      </div>
+
+      <div class="actions reveal" style="justify-content:center;margin-top:40px">
+        <a class="btn btn--ghost" href={site.aitpUrl} target="_blank" rel="noopener">
+          Lessons &amp; recordings
+          <span class="ico" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LOGISTICS ==================== -->
+  <section class="section">
+    <div class="wrap">
+      <SectionHead
+        badge="Logistics"
+        title={`Expectations &amp; <span class="mark">information</span>`}
+        lede="What the semester asks of you, and what you get back for it."
+      />
+
+      <div class="cards">
+        <div class="card reveal">
+          <span class="chip">01</span>
+          <h3 class="h3">Structure</h3>
+          {
+            structureItems.map((item) => (
+              <dl class="card__row">
+                <dt>{item.label}</dt>
+                <dd>{item.detail}</dd>
+              </dl>
+            ))
+          }
+        </div>
+
+        <div class="card reveal reveal--2">
+          <span class="chip">02</span>
+          <h3 class="h3">Requirements</h3>
+          {
+            requirementItems.map((item) => (
+              <dl class="card__row">
+                <dt>{item.label}</dt>
+                <dd>{item.detail}</dd>
+              </dl>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    slot="cta"
+    badge="Stay connected"
+    title="Ready to join?"
+    description="Join us on our mailing list to stay updated on the next AITP session."
+    primary={{ text: "AITP Site", href: site.aitpUrl, external: true }}
+    secondary={{
+      text: "Join the mailing list",
+      href: site.joinFormUrl,
+      external: true,
+    }}
+  />
+</Base>

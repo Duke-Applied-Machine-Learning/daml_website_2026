@@ -1,0 +1,29 @@
+{
+  "name": "daml-website",
+  "version": "1.0.0",
+  "description": "Duke Applied Machine Learning \u2014 website",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "dev:aitp": "cd aitp && astro dev",
+    "build:aitp": "cd aitp && astro build",
+    "preview:aitp": "cd aitp && astro preview",
+    "check:aitp": "cd aitp && astro check"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "astro": "^7.3.2",
+    "sharp": "^0.35.4"
+  },
+  "private": true,
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
+  }
+}

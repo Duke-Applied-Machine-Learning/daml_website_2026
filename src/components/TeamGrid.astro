@@ -1,0 +1,52 @@
+---
+import { Image } from "astro:assets";
+import { headshots } from "@/data/images";
+import type { TeamMember } from "@/data/team";
+
+interface Props {
+  members: TeamMember[];
+  /** Set when the grid is one panel of a tab set. */
+  id?: string;
+  hidden?: boolean;
+  labelledBy?: string;
+}
+
+const { members, id, hidden, labelledBy } = Astro.props;
+---
+
+<div
+  class="team"
+  id={id}
+  hidden={hidden}
+  role={labelledBy ? "tabpanel" : undefined}
+  aria-labelledby={labelledBy}
+  tabindex={labelledBy ? 0 : undefined}
+>
+  {
+    members.map((m) => {
+      const photo = headshots[m.photo ?? "blank.jpg"];
+      const meta = [m.major, m.year].filter(Boolean).join(" · ");
+      return (
+        <figure class="member">
+          <div class="member__photo">
+            {photo && (
+              <Image
+                src={photo}
+                alt={m.name}
+                widths={[200, 400, 560]}
+                sizes="(max-width: 720px) 44vw, 210px"
+                loading="lazy"
+                quality={74}
+              />
+            )}
+          </div>
+          <figcaption>
+            <h3>{m.name}</h3>
+            <span class="member__role">{m.role}</span>
+            {meta && <span class="member__meta">{meta}</span>}
+          </figcaption>
+        </figure>
+      );
+    })
+  }
+</div>

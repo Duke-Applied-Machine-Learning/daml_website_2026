@@ -1,0 +1,46 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  badge?: string;
+  /** A quiet line above the headline, e.g. "Est. 2019". */
+  eyebrow?: string;
+  /** Allows a <span class="mark"> for the gradient underline. */
+  title: string;
+  image: ImageMetadata;
+}
+
+const { badge, eyebrow, title, image } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero__media" aria-hidden="true">
+    <Image
+      src={image}
+      alt=""
+      widths={[900, 1400, 1920, 2400]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      decoding="sync"
+      quality={70}
+    />
+  </div>
+  <span class="aura aura--1" aria-hidden="true"></span>
+  <div class="dot-field" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="hero__inner">
+      {badge && <span class="badge badge--dark">{badge}</span>}
+      {eyebrow && <span class="hero__eyebrow">{eyebrow}</span>}
+      <h1 class="h1 hero__title" set:html={title} />
+      <slot name="lede" />
+      <div class="hero__actions">
+        <slot name="actions" />
+      </div>
+    </div>
+
+    <slot name="after" />
+  </div>
+</section>

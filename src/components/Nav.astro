@@ -1,0 +1,146 @@
+---
+import { navLinks, site } from "@/data/site";
+
+interface Link {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  /** Pages that open on a light hero start the bar already settled. */
+  solid?: boolean;
+  /** Defaults are the main site's; the AITP site passes its own. */
+  links?: readonly Link[];
+  homeHref?: string;
+  cta?: Link;
+}
+
+const {
+  solid = false,
+  links = navLinks,
+  homeHref = "/",
+  cta = { href: site.joinFormUrl, label: "Join us" },
+} = Astro.props;
+const here = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header class:list={["nav", solid && "nav--solid"]} id="nav">
+  <div class="nav__inner">
+    <a href={homeHref} class="nav__brand" aria-label={`${site.name} — home`}>
+      <span class="nav__mark" aria-hidden="true"></span>
+      <span class="nav__word">Duke Applied<br />Machine Learning</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            aria-current={here === link.href ? "page" : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a href={cta.href} class="nav__cta" target="_blank" rel="noopener">
+      {cta.label}
+    </a>
+
+    <button
+      class="nav__toggle"
+      id="nav-toggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="nav-overlay"
+    >
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="nav-overlay" hidden>
+  <nav class="menu__links" aria-label="Mobile">
+    {links.map((link) => <a href={link.href}>{link.label}</a>)}
+  </nav>
+  <div class="menu__foot">
+    <a href={cta.href} target="_blank" rel="noopener">{cta.label}</a>
+    <a href={site.instagram} target="_blank" rel="noopener">Instagram</a>
+    <a href={site.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</div>
+
+{
+  /* Inline so it runs during parse: a deferred module would let a page loaded
+     already-scrolled paint white type on the light bar for a frame. */
+}
+{
+  !solid && (
+    <script is:inline>
+      (() => {
+        const nav = document.getElementById("nav");
+        if (!nav) return;
+
+        // The one number to tune: px of scroll over which the bar's light
+        // ground arrives. The type crossover scales off it.
+        const GROUND_END = 300;
+        const FADE_FROM = GROUND_END * 0.12;
+        const FADE_TO = GROUND_END * 0.34;
+
+        const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
+        // smoothstep, so neither the departure from white nor the arrival at
+        // ink has a visible corner
+        const smooth = (n) => n * n * (3 - 2 * n);
+
+        let queued = false;
+        const paint = () => {
+          queued = false;
+          const y = Math.max(window.scrollY, 0);
+          nav.style.setProperty("--nav-p", clamp01(y / GROUND_END).toFixed(4));
+          const t = clamp01((y - FADE_FROM) / (FADE_TO - FADE_FROM));
+          nav.style.setProperty("--nav-t", smooth(t).toFixed(4));
+        };
+
+        paint();
+        requestAnimationFrame(() => nav.classList.add("is-ready"));
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (queued) return;
+            queued = true;
+            requestAnimationFrame(paint);
+          },
+          { passive: true },
+        );
+      })();
+    </script>
+  )
+}
+
+<script>
+  const toggle = document.getElementById("nav-toggle");
+  const overlay = document.getElementById("nav-overlay");
+
+  if (toggle && overlay) {
+    const setMenu = (open: boolean) => {
+      overlay.hidden = !open;
+      toggle.classList.toggle("is-open", open);
+      document.getElementById("nav")?.classList.toggle("is-menu", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      document.body.classList.toggle("no-scroll", open);
+    };
+
+    // `hidden` widened to boolean | "until-found" in newer DOM types, and any
+    // truthy value means the menu is currently closed
+    toggle.addEventListener("click", () => setMenu(Boolean(overlay.hidden)));
+    overlay
+      .querySelectorAll("a")
+      .forEach((a) => a.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !overlay.hidden) setMenu(false);
+    });
+  }
+</script>

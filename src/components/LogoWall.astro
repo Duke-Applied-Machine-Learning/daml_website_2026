@@ -1,0 +1,31 @@
+---
+import { Image } from "astro:assets";
+import { companyLogos } from "@/data/images";
+import { logoHeight, type Company } from "@/data/companies";
+
+interface Props {
+  companies: Company[];
+}
+
+const { companies } = Astro.props;
+---
+
+<ul class="logo-wall">
+  {
+    companies.map((c, i) => {
+      const img = companyLogos[c.logo];
+      return (
+        <li class:list={["reveal", `reveal--${(i % 4) + 1}`]}>
+          <Image
+            src={img}
+            alt={c.name}
+            title={c.name}
+            height={logoHeight(img, 3400, 22, 58)}
+            densities={[1, 2]}
+            loading="lazy"
+          />
+        </li>
+      );
+    })
+  }
+</ul>

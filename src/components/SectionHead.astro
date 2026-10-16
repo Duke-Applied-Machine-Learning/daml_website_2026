@@ -1,0 +1,17 @@
+---
+interface Props {
+  badge: string;
+  /** Allows a <span class="mark"> for the gradient underline. */
+  title: string;
+  lede?: string;
+}
+
+const { badge, title, lede } = Astro.props;
+---
+
+<div class="sec-head reveal">
+  <span class="badge">{badge}</span>
+  <h2 class="h2" set:html={title} />
+  {lede && <p class="lede">{lede}</p>}
+  <slot />
+</div>

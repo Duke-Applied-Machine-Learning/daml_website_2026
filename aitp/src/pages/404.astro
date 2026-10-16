@@ -1,0 +1,22 @@
+---
+import Base from "@/layouts/Base.astro";
+import { nav, footer } from "../nav";
+---
+
+<Base title="Page not found" solidNav nav={nav} footer={footer}>
+  <section class="phero phero--plain">
+    <div class="wrap">
+      <div class="phero__inner">
+        <span class="badge">Error 404</span>
+        <h1 class="h1">This page doesn't exist</h1>
+        <p class="phero__lede">The syllabus and every lesson live on the AITP home page.</p>
+        <div class="phero__actions">
+          <a class="btn btn--primary" href="/">
+            Back to AITP
+            <span class="ico" aria-hidden="true">&#8594;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

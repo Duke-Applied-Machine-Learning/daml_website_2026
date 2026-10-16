@@ -1,0 +1,88 @@
+---
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import { site } from "@/data/site";
+import "@/styles/global.css";
+import type { ComponentProps } from "astro/types";
+
+// The one face on the site. Preloading it stops the hero headline reflowing
+// once the stylesheet's @font-face rules resolve.
+import sansUrl from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Pages without a photographic hero start the header already settled. */
+  solidNav?: boolean;
+  /** Override the main site's nav and footer — the AITP site uses these. */
+  nav?: Omit<ComponentProps<typeof Nav>, "solid">;
+  footer?: ComponentProps<typeof Footer>;
+}
+
+const {
+  title,
+  description = site.tagline,
+  solidNav = false,
+  nav = {},
+  footer = {},
+} = Astro.props;
+
+const fullTitle =
+  title === site.name ? site.name : `${title} — ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en" class:list={[!solidNav && "dark-top"]}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={sansUrl}
+      crossorigin
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#012169" />
+  </head>
+
+  <body>
+    <Nav solid={solidNav} {...nav} />
+
+    <main id="top">
+      <slot />
+    </main>
+
+    <slot name="cta" />
+    <Footer {...footer} />
+
+    <script>
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-in");
+            io.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -60px 0px" },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

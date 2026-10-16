@@ -1,0 +1,59 @@
+---
+import { Image } from "astro:assets";
+import { projectShots } from "@/data/images";
+import type { Project } from "@/data/projects";
+
+interface Props {
+  project: Project;
+  /** Position within its row, so a grid reveals left-to-right. */
+  index?: number;
+}
+
+const { project, index = 0 } = Astro.props;
+const shot = project.shot ? projectShots[project.shot] : undefined;
+const link = project.repoUrl ?? project.slidesUrl;
+// "Client Project · Sp26" → "Client Project · Spring 2026"
+const meta = project.meta
+  ?.replace(/\bSp(\d{2})\b/, "Spring 20$1")
+  .replace(/\bFa(\d{2})\b/, "Fall 20$1");
+// stagger repeats every three cards, matching the widest grid
+const step = (index % 3) + 1;
+---
+
+<article class:list={["card", "project", "reveal", step > 1 && `reveal--${step}`]}>
+  <div class:list={["project__shot", !shot && "project__shot--blank"]}>
+    {
+      shot ? (
+        <Image
+          src={shot}
+          alt={project.shotAlt ?? `${project.title} — project screenshot`}
+          widths={[400, 700, 1000]}
+          sizes="(max-width: 720px) 92vw, (max-width: 1240px) 46vw, 380px"
+          loading="lazy"
+          quality={70}
+        />
+      ) : (
+        <span class="project__glyph" aria-hidden="true" />
+      )
+    }
+  </div>
+
+  {meta && <span class="tag">{meta}</span>}
+  <h3 class="h4">{project.title}</h3>
+  {project.description && <p>{project.description}</p>}
+
+  <div class="project__foot">
+    {project.team && <span class="project__team">{project.team}</span>}
+    {
+      link && (
+        <a class="link" href={link} target="_blank" rel="noopener">
+          {project.repoUrl ? "View repo" : "View slides"}
+          <span class="u-sr-only"> — {project.title}</span>
+          <span class="ico" aria-hidden="true">
+            ↗
+          </span>
+        </a>
+      )
+    }
+  </div>
+</article>

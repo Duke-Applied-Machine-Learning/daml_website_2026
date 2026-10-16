@@ -1,0 +1,164 @@
+---
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/PageHero.astro";
+import SectionHead from "@/components/SectionHead.astro";
+import Cta from "@/components/Cta.astro";
+import { site } from "@/data/site";
+import LogoWall from "@/components/LogoWall.astro";
+import { partnerCompanies } from "@/data/companies";
+
+import heroPhoto from "@/assets/chapel.jpg";
+
+const partnershipTypes = [
+  {
+    title: "DAML Project Partnerships",
+    description: "Meet with our PM team for client projects in data and AI/ML.",
+    items: [
+      "Project Plan",
+      "EDA Deliverables",
+      "Business Analysis Reports",
+      "Model Prototypes",
+      "Deployed Models",
+    ],
+  },
+  {
+    title: "Academic Partnerships",
+    description: "Collaborate with us to expand our education initiatives.",
+    items: ["Data Engineering & Data Science concepts", "Software products"],
+  },
+  {
+    title: "Guest Speakers & Outreach",
+    description:
+      "We're happy to host guest speakers and workshops for our members.",
+    items: [],
+  },
+];
+
+const mlServices = [
+  {
+    title: "Computer Vision",
+    description:
+      "Custom solutions for image classification, object detection, segmentation, and video analysis.",
+  },
+  {
+    title: "Generative AI / LLMs",
+    description:
+      "Build chatbots, content generation systems, and intelligent assistants using cutting-edge LLM technologies.",
+  },
+  {
+    title: "EDA",
+    description:
+      "Comprehensive exploratory data analysis with detailed reports, visualizations, and strategic recommendations.",
+  },
+  {
+    title: "Prediction Models",
+    description:
+      "Predictive models for forecasting and classification, plus clustering solutions for segmentation and anomaly detection.",
+  },
+];
+
+---
+
+<Base
+  title="Partner With Us"
+  description="DAML partners with companies to build AI/ML solutions, gather data insights, and expand our education initiatives."
+  solidNav
+>
+  <PageHero
+    badge="Collaborate"
+    title={`Put a Duke ML team <span class="mark">on your problem</span>`}
+    image={heroPhoto}
+    imageAlt="Duke Chapel"
+  >
+    <p slot="lede" class="phero__lede">
+      We partner with companies to build AI/ML solutions, gather data insights,
+      and expand our education initiatives. Partnering with DAML helps expand
+      opportunities for Duke undergraduates.
+    </p>
+
+    <a slot="actions" class="btn btn--primary" href={`mailto:${site.email}`}>
+      Contact us
+      <span class="ico" aria-hidden="true">→</span>
+    </a>
+  </PageHero>
+
+  <!-- ==================== OPPORTUNITIES ==================== -->
+  <section class="section section--under-plate">
+    <div class="wrap">
+      <SectionHead
+        badge="Opportunities"
+        title={`Partnership <span class="mark">opportunities</span>`}
+        lede="Three ways organizations work with us — as a client, as an academic collaborator, or as a voice in front of our members."
+      />
+
+      <div class="cards">
+        {
+          partnershipTypes.map((pt, i) => (
+            <div class:list={["card", "reveal", i > 0 && `reveal--${i + 1}`]}>
+              <span class="chip">{String(i + 1).padStart(2, "0")}</span>
+              <h3 class="h3">{pt.title}</h3>
+              <p>{pt.description}</p>
+              {pt.items.length > 0 && (
+                <ul class="card__list">
+                  {pt.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ML CONSULTING ==================== -->
+  <section class="section section--alt">
+    <div class="wrap">
+      <SectionHead
+        badge="Services"
+        title={`ML <span class="mark">consulting</span>`}
+        lede="Our engineers work with clients to develop ML products that best impact their business."
+      />
+
+      <div class="cards">
+        {
+          mlServices.map((service, i) => (
+            <div
+              class:list={[
+                "card",
+                "reveal",
+                i > 0 && `reveal--${Math.min(i + 1, 4)}`,
+              ]}
+            >
+              <span class="chip">{String(i + 1).padStart(2, "0")}</span>
+              <h3 class="h3">{service.title}</h3>
+              <p>{service.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PAST PROJECTS ==================== -->
+  <section class="section">
+    <div class="wrap">
+      <SectionHead
+        badge="Track record"
+        title={`Past projects, from startups <span class="mark">to big tech</span>`}
+        lede="Organizations our engineering teams have scoped, built, and shipped ML work with."
+      />
+      <LogoWall companies={partnerCompanies} />
+    </div>
+  </section>
+
+  <Cta
+    slot="cta"
+    badge="Get in touch"
+    title="Ready to partner with DAML?"
+    description="Join leading organizations working with Duke's top ML talent. Whether you need an engineering team, want to sponsor projects, or are looking to connect with our members, we welcome all forms of collaboration."
+    primary={{ text: "Contact us", href: `mailto:${site.email}` }}
+    secondary={{ text: "Meet the team", href: "/team" }}
+  />
+</Base>

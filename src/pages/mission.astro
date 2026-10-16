@@ -1,0 +1,250 @@
+---
+import { Image } from "astro:assets";
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/PageHero.astro";
+import SectionHead from "@/components/SectionHead.astro";
+import Cta from "@/components/Cta.astro";
+import { site } from "@/data/site";
+
+import heroPhoto from "@/assets/IMG_9027.png";
+import trainingPhoto from "@/assets/springtime.jpg";
+import workingPhoto from "@/assets/working_team.jpeg";
+
+const values = [
+  {
+    title: "Inclusivity",
+    description:
+      "We accelerate advanced members' learning and cultivate the skills of those who are new to the field.",
+  },
+  {
+    title: "Structured Pipeline",
+    description:
+      "Members progress from training to project work and into leadership roles.",
+  },
+  {
+    title: "Real impact",
+    description:
+      "Our work ships: EDA reports, model prototypes, and deployed solutions.",
+  },
+  {
+    title: "Strong Community",
+    description:
+      "A collaborative environment built on mentorship, team-based work, and lasting connections.",
+  },
+];
+
+const engagementFlow = [
+  {
+    stage: "Member",
+    focus:
+      "Engagement with our training program, GBMs, and events. Actively in AITP.",
+  },
+  {
+    stage: "Junior Engineer",
+    focus:
+      "Completion of our AI training program, these members are now familiar with the fundamentals of data science / ML.",
+  },
+  {
+    stage: "Data Scientist",
+    focus:
+      "Actively work on our high-stakes projects, completing deliverables throughout the semester.",
+  },
+  {
+    stage: "Project Manager",
+    focus:
+      "These engineers now pave their way to leading DAML's next project initiatives.",
+  },
+  {
+    stage: "DS Director",
+    focus: "The main leads shaping the next DS/ML initiatives of DAML.",
+  },
+];
+
+const howWeWork = [
+  "Scoped problem definition with defined milestones and timelines",
+  "Team-based progress led by PMs & DS Directors",
+  "Clear deliverables: EDA reports, model prototypes, and evaluations",
+];
+---
+
+<Base
+  title="Mission"
+  description="DAML is an open-membership student organization at Duke dedicated to developing skilled machine learning practitioners through structured training and real-world projects."
+  solidNav
+>
+  <PageHero
+    badge="About us"
+    title={`Accessible ML education, <span class="mark">taken seriously</span>`}
+    image={heroPhoto}
+    imageAlt="The DAML community at a training session"
+  >
+    <div slot="lede" class="phero__lede">
+      <p>
+        DAML is an open-membership student organization at Duke dedicated to
+        developing skilled machine learning practitioners through structured
+        training and real-world projects.
+      </p>
+      <p>
+        We prioritize accessible ML education and evaluate members based on
+        commitment and growth, building a community focused on delivering
+        meaningful, pre-professional work.
+      </p>
+    </div>
+
+    <a
+      slot="actions"
+      class="btn btn--primary"
+      href={site.joinFormUrl}
+      target="_blank"
+      rel="noopener"
+    >
+      Join DAML
+      <span class="ico" aria-hidden="true">→</span>
+    </a>
+  </PageHero>
+
+  <!-- ==================== VALUES ==================== -->
+  <section class="section section--under-plate">
+    <div class="wrap">
+      <SectionHead
+        badge="What we stand for"
+        title={`Four things we <span class="mark">hold to</span>`}
+      />
+
+      <div class="cards">
+        {
+          values.map((v, i) => (
+            <article
+              class:list={[
+                "card",
+                "reveal",
+                i > 0 && `reveal--${Math.min(i + 1, 4)}`,
+              ]}
+            >
+              <span class="chip">{String(i + 1).padStart(2, "0")}</span>
+              <h3 class="h3">{v.title}</h3>
+              <p>{v.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROGRESSION ==================== -->
+  <section class="section section--alt">
+    <div class="wrap">
+      <SectionHead
+        badge="Progression"
+        title={`Our members' <span class="mark">progression</span>`}
+        lede="Every engineer follows the same route in: training first, then project work, then the leadership of new initiatives."
+      />
+
+      <div class="track reveal">
+        {
+          engagementFlow.map((step, i) => (
+            <article class="card">
+              <span class="chip">{String(i + 1).padStart(2, "0")}</span>
+              <h3 class="h4">{step.stage}</h3>
+              <p>{step.focus}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TRAINING ==================== -->
+  <section class="section">
+    <div class="wrap">
+      <div class="feature reveal">
+        <div class="feature__body">
+          <span class="badge">Training</span>
+          <h2 class="h2">How we <span class="mark">train</span> our members</h2>
+          <p>
+            Our 7-week AI Training Program takes members from coding basics to
+            understanding the fundamentals of machine learning, covering
+            exploratory data analysis, model training, evaluation, and subfields
+            within ML.
+          </p>
+          <p>
+            Members complete assessments and project presentations before
+            advancing to project teams, ensuring every engineer can contribute
+            meaningfully to real project work.
+          </p>
+          <div class="actions">
+            <a class="btn btn--primary" href="/recruitment">
+              Explore our curriculum
+              <span class="ico" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="feature__media">
+          <Image
+            src={trainingPhoto}
+            alt="An AITP training session"
+            widths={[600, 900, 1200]}
+            sizes="(max-width: 1024px) 92vw, 560px"
+            loading="lazy"
+            quality={72}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== HOW WE WORK ==================== -->
+  <section class="section section--alt">
+    <div class="wrap">
+      <div class="feature feature--flip reveal">
+        <div class="feature__body">
+          <span class="badge">How we work</span>
+          <h2 class="h2">
+            How we work on <span class="mark">real-world</span> ML projects
+          </h2>
+          <p>
+            Our engineering teams partner with organizations to scope and build
+            prototype ML solutions. We set milestones and defined deliverables
+            before assigning teams.
+          </p>
+          <ul class="feature__list">
+            {howWeWork.map((point) => <li>{point}</li>)}
+          </ul>
+          <div class="actions">
+            <a class="btn btn--ghost" href="/partner">
+              Explore partnerships
+              <span class="ico" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="feature__media">
+          <Image
+            src={workingPhoto}
+            alt="A DAML project team at work"
+            widths={[600, 900, 1200]}
+            sizes="(max-width: 1024px) 92vw, 560px"
+            loading="lazy"
+            quality={72}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    slot="cta"
+    badge="Collaborate"
+    title="Want to collaborate with DAML?"
+    description="Contact our teams, share the challenge, the stakeholders we should meet, and the environments we can plug into."
+    primary={{
+      text: "Start a project conversation",
+      href: `mailto:${site.email}`,
+    }}
+    secondary={{
+      text: "See partnership opportunities",
+      href: "/partner",
+    }}
+  />
+</Base>

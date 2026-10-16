@@ -1,0 +1,134 @@
+---
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/PageHero.astro";
+import SectionHead from "@/components/SectionHead.astro";
+import TeamGrid from "@/components/TeamGrid.astro";
+import Cta from "@/components/Cta.astro";
+import { site } from "@/data/site";
+import { teams, byTeam } from "@/data/team";
+
+import heroPhoto from "@/assets/team_photo.jpeg";
+
+const tabs = teams.map((t) => ({
+  id: t.toLowerCase(),
+  label: t,
+  members: byTeam(t),
+}));
+---
+
+<Base
+  title="The team"
+  description="The students behind Duke Applied Machine Learning — the exec, outreach, and marketing teams."
+  solidNav
+>
+  <PageHero
+    badge="People"
+    title={`The students <span class="mark">behind DAML</span>`}
+    image={heroPhoto}
+    imageAlt="The DAML team"
+  >
+    <p slot="lede" class="phero__lede">
+      Seventy engineers, five project teams, and the people who keep it all
+      running.
+    </p>
+
+    <a slot="actions" class="btn btn--primary" href={`mailto:${site.email}`}>
+      Get in touch
+      <span class="ico" aria-hidden="true">→</span>
+    </a>
+  </PageHero>
+
+  <!-- ==================== EXECUTIVE ==================== -->
+  <section class="section section--under-plate">
+    <div class="wrap">
+      <SectionHead
+        badge="Leadership"
+        title={`Meet the <span class="mark">team</span>`}
+        lede="The exec board setting DAML's technical and organizational direction, and the outreach and marketing teams carrying it beyond Duke."
+      />
+
+      <div class="reveal">
+        <div class="tabs-wrap">
+          <div class="tabs" role="tablist" aria-label="Teams">
+            {
+              tabs.map((t, i) => (
+                <button
+                  type="button"
+                  role="tab"
+                  id={`tab-${t.id}`}
+                  aria-controls={`panel-${t.id}`}
+                  aria-selected={i === 0 ? "true" : "false"}
+                  tabindex={i === 0 ? 0 : -1}
+                >
+                  {t.label}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        {
+          tabs.map((t, i) => (
+            <TeamGrid
+              members={t.members}
+              id={`panel-${t.id}`}
+              labelledBy={`tab-${t.id}`}
+              hidden={i !== 0}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    slot="cta"
+    badge="Reach out"
+    title="Partner or mentor with DAML"
+    description="Whether you want to scope a project, give a workshop, or connect talent with opportunities, reach out so that we can connect you to the right team member."
+    primary={{ text: "Contact us", href: `mailto:${site.email}` }}
+    secondary={{ text: "Explore consulting", href: "/partner" }}
+  />
+</Base>
+
+<script>
+  const list = document.querySelector<HTMLElement>('[role="tablist"]');
+  if (list) {
+    const tabs = Array.from(
+      list.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
+    );
+
+    const select = (next: HTMLButtonElement, focus = true) => {
+      tabs.forEach((tab) => {
+        const on = tab === next;
+        tab.setAttribute("aria-selected", String(on));
+        tab.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(
+          tab.getAttribute("aria-controls") ?? "",
+        );
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) next.focus();
+    };
+
+    tabs.forEach((tab) =>
+      tab.addEventListener("click", () => select(tab, false)),
+    );
+
+    // roving tabindex: arrows move between tabs, Home/End jump to the ends
+    list.addEventListener("keydown", (e) => {
+      const i = tabs.indexOf(document.activeElement as HTMLButtonElement);
+      if (i === -1) return;
+      const keys: Record<string, number> = {
+        ArrowRight: i + 1,
+        ArrowLeft: i - 1,
+        Home: 0,
+        End: tabs.length - 1,
+      };
+      const target = keys[e.key];
+      if (target === undefined) return;
+      e.preventDefault();
+      select(tabs[(target + tabs.length) % tabs.length]);
+    });
+  }
+</script>

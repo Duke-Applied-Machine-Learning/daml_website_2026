@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets";
+import { companyLogos } from "@/data/images";
+import { logoHeight, type Company } from "@/data/companies";
+
+interface Props {
+  companies: Company[];
+  /** Target logo area in px² — wide wordmarks and square marks read as equal. */
+  area?: number;
+}
+
+const { companies, area = 4200 } = Astro.props;
+---
+
+<div class="rail">
+  <ul class="rail__track">
+    {
+      [...companies, ...companies].map((c, i) => {
+        const img = companyLogos[c.logo];
+        const dupe = i >= companies.length;
+        return (
+          <li aria-hidden={dupe ? "true" : undefined}>
+            <Image
+              src={img}
+              alt={dupe ? "" : c.name}
+              height={logoHeight(img, area, 22, 46)}
+              densities={[1, 2]}
+              loading="lazy"
+            />
+          </li>
+        );
+      })
+    }
+  </ul>
+</div>

@@ -1,0 +1,62 @@
+---
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/PageHero.astro";
+import SectionHead from "@/components/SectionHead.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import Cta from "@/components/Cta.astro";
+import { projects } from "@/data/projects";
+
+import heroPhoto from "@/assets/projects_photo.jpeg";
+
+// Newest first: "Sp26" sorts above "Sp25" above "Sp24".
+const year = (p: (typeof projects)[number]) =>
+  Number(p.meta?.match(/\d{2}$/)?.[0] ?? 0);
+const past = [...projects].sort((a, b) => year(b) - year(a));
+const recent = past.filter((p) => year(p) === 26).length;
+---
+
+<Base
+  title="Projects"
+  description="Past projects from DAML engineering teams — research, internal builds, and client work, most recently from Spring 2026."
+  solidNav
+>
+  <PageHero
+    badge="Portfolio"
+    title={`What our teams <span class="mark">shipped</span>`}
+    image={heroPhoto}
+    imageAlt="DAML members presenting project work"
+  >
+    <p slot="lede" class="phero__lede">
+      Research, internal builds, and client work from past semesters —
+      most recently our Spring 2026 teams.
+    </p>
+
+    <a slot="actions" class="btn btn--primary" href="/partner">
+      Scope a project
+      <span class="ico" aria-hidden="true">→</span>
+    </a>
+  </PageHero>
+
+  <section class="section section--under-plate">
+    <div class="wrap">
+      <SectionHead
+        badge="Portfolio"
+        title={`Past <span class="mark">projects</span>`}
+        lede={`${recent} projects from last semester's Spring 2026 teams, from diffusion and medical imaging research to client-facing tools, plus highlights from earlier years.`}
+      />
+
+      <div class="projects">
+        {past.map((project, i) => <ProjectCard project={project} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    slot="cta"
+    badge="Work with us"
+    title="Have a problem worth modeling?"
+    description="We match dedicated engineering teams with partner organizations to deliver ML prototypes throughout the semester, with dedicated PMs and leads."
+    primary={{ text: "Partner with us", href: "/partner" }}
+    secondary={{ text: "Meet the team", href: "/team" }}
+  />
+</Base>

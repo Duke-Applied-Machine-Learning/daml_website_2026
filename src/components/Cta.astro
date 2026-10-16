@@ -1,0 +1,50 @@
+---
+interface Action {
+  text: string;
+  href: string;
+  external?: boolean;
+}
+
+interface Props {
+  badge?: string;
+  title: string;
+  description: string;
+  primary: Action;
+  secondary?: Action;
+}
+
+const { badge, title, description, primary, secondary } = Astro.props;
+
+const ext = (a: Action) =>
+  a.external ? { target: "_blank", rel: "noopener" } : {};
+---
+
+<section class="cta-zone">
+  <div class="wrap">
+    <div class="cta reveal">
+      <span class="cta__glyph" aria-hidden="true"></span>
+      <div class="cta__inner">
+        {badge && <span class="badge badge--dark">{badge}</span>}
+        <h2 class="h2" set:html={title} />
+        <p>{description}</p>
+        <div class="actions">
+          <a href={primary.href} class="btn btn--light" {...ext(primary)}>
+            {primary.text}
+            <span class="ico" aria-hidden="true">→</span>
+          </a>
+          {
+            secondary && (
+              <a
+                href={secondary.href}
+                class="btn btn--glass"
+                {...ext(secondary)}
+              >
+                {secondary.text}
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

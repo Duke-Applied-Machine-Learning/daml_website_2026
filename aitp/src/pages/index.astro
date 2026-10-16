@@ -1,0 +1,215 @@
+---
+import Base from "@/layouts/Base.astro";
+import Hero from "@/components/Hero.astro";
+import SectionHead from "@/components/SectionHead.astro";
+import Cta from "@/components/Cta.astro";
+import Lesson from "../components/Lesson.astro";
+import { nav, footer } from "../nav";
+import { site } from "@/data/site";
+import {
+  aitpTerm,
+  syllabus,
+  structureItems,
+  requirementItems,
+} from "@/data/aitp";
+
+import heroBg from "@/assets/IMG_9027.png";
+
+const main = (path: string) => new URL(path, site.url).href;
+
+const recorded = syllabus.filter((w) => w.video);
+const latest = recorded.at(-1);
+// Recorded lessons, then one card for the next week rather than a wall of
+// placeholders — the syllabus below already lists what's still to come.
+const nextUp = syllabus.find((w) => !w.video);
+const lessonCards = nextUp ? [...recorded, nextUp] : recorded;
+
+// Commas inside a parenthetical stay with it: "limitations (AGI, BCI,
+// genetics)" is one topic, not three.
+const splitTopics = (topics: string) => topics.split(/,\s*(?![^()]*\))/);
+---
+
+<Base
+  title="AI Training Program"
+  description="DAML's AI Training Program: ten weeks from ML fundamentals through transformers, generative models, and agents. Syllabus and every recorded lesson."
+  nav={nav}
+  footer={footer}
+>
+  <Hero
+    badge={`${aitpTerm} · 10 weeks`}
+    title={`The AI Training <span class="mark">Program</span>`}
+    image={heroBg}
+  >
+    <p slot="lede" class="hero__lede">
+      DAML's structured entry point into ML engineering — from intuition and
+      metrics through deep learning, transformers, generative models, and
+      agents. Every lesson is recorded and posted here.
+    </p>
+
+    <Fragment slot="actions">
+      {
+        latest && (
+          <a class="btn btn--light" href={`#lesson-${latest.week}`}>
+            Watch Week {latest.week}
+            <span class="ico" aria-hidden="true">→</span>
+          </a>
+        )
+      }
+      <a class="btn btn--glass" href="#syllabus">View syllabus</a>
+    </Fragment>
+
+    <div slot="after" class="stats">
+      <div class="stat">
+        <b>{syllabus.length}</b>
+        <span>Weeks</span>
+      </div>
+      <div class="stat">
+        <b>{recorded.length}</b>
+        <span>Lessons recorded</span>
+      </div>
+      <div class="stat">
+        <b>1</b>
+        <span>Judged final showcase</span>
+      </div>
+    </div>
+  </Hero>
+
+  <!-- ==================== LESSONS ==================== -->
+  <section id="lessons" class="section">
+    <div class="wrap">
+      <SectionHead
+        badge="Lessons"
+        title={`Every session, <span class="mark">on demand</span>`}
+        lede="Missed a Saturday or want a refresher? Recordings go up on our YouTube channel after each week's workshop."
+      >
+        <a class="btn btn--ghost" href={site.youtube} target="_blank" rel="noopener">
+          Subscribe on YouTube
+          <span class="ico" aria-hidden="true">→</span>
+        </a>
+      </SectionHead>
+
+      <div class="lessons">
+        {lessonCards.map((week) => <Lesson week={week} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SYLLABUS ==================== -->
+  <section id="syllabus" class="section section--alt">
+    <div class="wrap">
+      <SectionHead
+        badge="Curriculum"
+        title={`${syllabus.length} weeks, <span class="mark">first principles to agents</span>`}
+        lede="Each week pairs a workshop with hands-on work, building from classical methods to the architectures behind today's models."
+      />
+
+      <ol class="weeks">
+        {
+          syllabus.map((w) => (
+            <li class="wk reveal">
+              <span class="wk__num">
+                <small>Week</small>
+                {String(w.week).padStart(2, "0")}
+              </span>
+              <div class="wk__body">
+                {w.sessions.map((s) => (
+                  <div class="wk__session">
+                    <h3 class="h4">{s.theme}</h3>
+                    <ul class="wk__topics" aria-label="Topics">
+                      {splitTopics(s.topics).map((t) => (
+                        <li class="tag">{t}</li>
+                      ))}
+                    </ul>
+                    {s.handsOn && (
+                      <p class="wk__hands">
+                        <b>Hands-on</b>
+                        {s.handsOn}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {w.video ? (
+                <a class="link wk__watch" href={`#lesson-${w.week}`}>
+                  Watch
+                  <span class="ico" aria-hidden="true">→</span>
+                </a>
+              ) : (
+                <span class="wk__watch wk__watch--soon">Upcoming</span>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ==================== LOGISTICS ==================== -->
+  <section id="logistics" class="section">
+    <div class="wrap">
+      <SectionHead
+        badge="Logistics"
+        title={`Expectations &amp; <span class="mark">information</span>`}
+        lede="What the semester asks of you, and what you get back for it."
+      />
+
+      <div class="cards">
+        <div class="card reveal">
+          <span class="chip">01</span>
+          <h3 class="h3">Structure</h3>
+          {
+            structureItems.map((item) => (
+              <dl class="card__row">
+                <dt>{item.label}</dt>
+                <dd>{item.detail}</dd>
+              </dl>
+            ))
+          }
+        </div>
+
+        <div class="card reveal reveal--2">
+          <span class="chip">02</span>
+          <h3 class="h3">Requirements</h3>
+          {
+            requirementItems.map((item) => (
+              <dl class="card__row">
+                <dt>{item.label}</dt>
+                <dd>{item.detail}</dd>
+              </dl>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    slot="cta"
+    badge="Get involved"
+    title="Not a DAML member yet?"
+    description="AITP runs every semester. Join the mailing list to hear when the next cohort opens, or see what members build once they finish."
+    primary={{ text: "Join the mailing list", href: site.joinFormUrl, external: true }}
+    secondary={{ text: "See our projects", href: main("/projects") }}
+  />
+</Base>
+
+<script>
+  // Swap a lesson's thumbnail for the player on click. Without JS the link
+  // simply opens the video on YouTube.
+  document.querySelectorAll<HTMLAnchorElement>("[data-video]").forEach((a) =>
+    a.addEventListener("click", (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${a.dataset.video}?autoplay=1&rel=0`;
+      iframe.title = a.dataset.title ?? "AITP lesson";
+      iframe.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      const frame = document.createElement("div");
+      frame.className = "lesson__frame";
+      frame.append(iframe);
+      a.replaceWith(frame);
+    }),
+  );
+</script>

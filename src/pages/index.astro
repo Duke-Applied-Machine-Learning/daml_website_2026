@@ -1,0 +1,339 @@
+---
+import { Image } from "astro:assets";
+import Base from "@/layouts/Base.astro";
+import Hero from "@/components/Hero.astro";
+import SectionHead from "@/components/SectionHead.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import Cta from "@/components/Cta.astro";
+import { site } from "@/data/site";
+import { projects } from "@/data/projects";
+import { showcase } from "@/data/images";
+import LogoRail from "@/components/LogoRail.astro";
+import LogoWall from "@/components/LogoWall.astro";
+import { alumniCompanies, partnerCompanies } from "@/data/companies";
+
+import heroBg from "@/assets/hero/daml_background.png";
+import trainingPhoto from "@/assets/IMG_9027.png";
+import teamPhoto from "@/assets/daml_team_photo.jpg";
+import socialPhoto from "@/assets/social_photo.jpeg";
+
+const stats = [
+  { value: "250+", label: "Members" },
+  { value: "70+", label: "Data scientists" },
+  { value: "40+", label: "Projects" },
+];
+
+const pillars = [
+  {
+    title: "AI Training Program",
+    detail:
+      "A 10-week program taking members from ML fundamentals through transformers, generative models, and agents, ending in a judged project showcase.",
+    span: "b-3",
+    feature: true,
+  },
+  {
+    title: "Client Projects",
+    detail:
+      "Dedicated engineering teams paired with partner organizations to deliver ML prototypes across the semester.",
+    span: "b-3",
+  },
+  {
+    title: "Internal Projects",
+    detail:
+      "Our students lead personal projects that explore new ideas and research-inspired experiments.",
+    span: "b-2",
+  },
+  {
+    title: "Research",
+    detail:
+      "Initiatives in diffusion, medical imaging, and vision-language-action models, run with faculty-adjacent rigor.",
+    span: "b-2",
+  },
+  {
+    title: "Community & Events",
+    detail:
+      "Events, alumni connections, and recruiting touchpoints that extend the DAML network.",
+    span: "b-2",
+  },
+];
+
+const clientValueProps = [
+  {
+    title: "ML Consulting",
+    detail:
+      "Our teams scope ML projects and define clear, measurable outcomes & action plans.",
+  },
+  {
+    title: "Eng. Teams",
+    detail:
+      "We pair dedicated engineering teams with partner organizations, bringing Duke's CS talent to tackle real-world ML problems.",
+  },
+  {
+    title: "Deliverables",
+    detail:
+      "Partners receive project plans, EDA reports, and working model prototypes at defined milestones.",
+  },
+];
+
+const featured = projects.filter((p) => p.tier === "featured").slice(0, 3);
+---
+
+<Base
+  title={site.name}
+  description="Duke Applied Machine Learning is an open-membership student organization developing skilled ML practitioners through structured training, research, and real-world client projects."
+>
+  <Hero
+    eyebrow="Est. 2019"
+    title={`Where Duke builds <span class="mark">machine learning</span>`}
+    image={heroBg}
+  >
+    <p slot="lede" class="hero__lede">
+      An open-membership student org dedicated to enhancing ML education at
+      Duke — structured training, real client work, and a team that ships.
+    </p>
+
+    <Fragment slot="actions">
+      <a
+        class="btn btn--light"
+        href={site.joinFormUrl}
+        target="_blank"
+        rel="noopener"
+      >
+        Join us
+        <span class="ico" aria-hidden="true">→</span>
+      </a>
+      <a class="btn btn--glass" href="/mission">Learn more</a>
+    </Fragment>
+
+    <div slot="after" class="stats">
+      {
+        stats.map((s) => (
+          <div class="stat">
+            <b>{s.value}</b>
+            <span>{s.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </Hero>
+
+  <!-- ==================== ALUMNI RAIL ==================== -->
+  <div class="section--tight logos-band">
+    <p class="logos-band__label">Where DAML members go</p>
+    <LogoRail companies={alumniCompanies} />
+  </div>
+
+  <!-- ==================== WHAT WE DO ==================== -->
+  <section id="about" class="section">
+    <div class="wrap">
+      <SectionHead
+        badge="What we do"
+        title={`An inclusive pre‑professional <span class="mark">ML community</span>`}
+        lede="We are a student-led organization that empowers education, research, and applied work in machine learning — helping student engineers gain real ML experience, project leadership, and collaboration with partners across Duke and beyond."
+      />
+
+      <div class="bento">
+        {
+          pillars.map((p, i) => (
+            <article
+              class:list={[
+                "card",
+                p.span,
+                p.feature && "card--feature",
+                "reveal",
+                i > 0 && `reveal--${Math.min(i + 1, 4)}`,
+              ]}
+            >
+              <span class="chip">{String(i + 1).padStart(2, "0")}</span>
+              <h3 class="h3">{p.title}</h3>
+              <p>{p.detail}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SHOWCASE STRIP ==================== -->
+  <div class="section--tight section--alt">
+    <div class="strip">
+      <div class="strip__track">
+        {
+          [...showcase, ...showcase].map((img, i) => (
+            <Image
+              src={img}
+              alt={i < showcase.length ? "DAML 2026 project showcase" : ""}
+              aria-hidden={i >= showcase.length ? "true" : undefined}
+              widths={[320, 520]}
+              sizes="340px"
+              loading="lazy"
+              quality={68}
+            />
+          ))
+        }
+      </div>
+    </div>
+    <p class="strip__note">
+      A large thank you to the teams that have presented at our 2026 showcase.
+    </p>
+  </div>
+
+  <!-- ==================== EDUCATION ==================== -->
+  <section class="section band-dark">
+    <span class="aura aura--2" aria-hidden="true"></span>
+    <div class="dot-field" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="feature reveal">
+        <div class="feature__body">
+          <span class="badge badge--dark">Education</span>
+          <h2 class="h2">
+            The AI Fundamentals <span class="mark">Training Program</span>
+          </h2>
+          <p>
+            DAML's AI Training Program (AITP) is the structured entry point for
+            members to become engineers within the organization. The program
+            takes members from ML fundamentals through modern deep learning
+            systems, with a focus on real deliverables and project readiness.
+          </p>
+          <ul class="feature__list">
+            <li>
+              A 10-week program, from classification and clustering through
+              transformers, generative models, and agents
+            </li>
+            <li>Weekly workshops followed by mentored project work sessions</li>
+            <li>A final showcase judged by our Data Science Directors</li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn--light" href="/recruitment">
+              Explore our curriculum
+              <span class="ico" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="feature__media">
+          <Image
+            src={trainingPhoto}
+            alt="A DAML training session"
+            widths={[600, 900, 1200]}
+            sizes="(max-width: 1024px) 92vw, 560px"
+            loading="lazy"
+            quality={72}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CLIENT PROJECTS ==================== -->
+  <section class="section">
+    <div class="wrap">
+      <SectionHead
+        badge="Client projects"
+        title={`Pairing Duke's talent with <span class="mark">real experience</span>`}
+        lede="We match dedicated engineering teams with partner organizations to deliver ML prototypes throughout the semester, with dedicated PMs and leads."
+      />
+
+      <div class="cards">
+        {
+          clientValueProps.map((item, i) => (
+            <article
+              class:list={["card", "reveal", i > 0 && `reveal--${i + 1}`]}
+            >
+              <span class="chip">{String(i + 1).padStart(2, "0")}</span>
+              <h3 class="h3">{item.title}</h3>
+              <p>{item.detail}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="wall-head reveal">
+        <h3 class="h3">Past projects, from startups to big tech</h3>
+        <p>Organizations our teams have built ML with.</p>
+      </div>
+      <LogoWall companies={partnerCompanies} />
+
+      <div class="actions reveal" style="justify-content:center;margin-top:40px">
+        <a class="btn btn--ghost" href="/partner">
+          Partner with us
+          <span class="ico" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INTERNAL / COMMUNITY ==================== -->
+  <section class="section section--alt">
+    <div class="wrap">
+      <div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+        <article class="card reveal">
+          <div class="card__media">
+            <Image
+              src={teamPhoto}
+              alt="The DAML team"
+              widths={[520, 800, 1100]}
+              sizes="(max-width: 1024px) 92vw, 540px"
+              loading="lazy"
+              quality={72}
+            />
+          </div>
+          <h3 class="h3">Internal Projects</h3>
+          <p>
+            Our students lead personal projects that explore new ideas and
+            research-inspired experiments.
+          </p>
+        </article>
+
+        <article class="card reveal reveal--2">
+          <div class="card__media">
+            <Image
+              src={socialPhoto}
+              alt="A DAML social event"
+              widths={[520, 800, 1100]}
+              sizes="(max-width: 1024px) 92vw, 540px"
+              loading="lazy"
+              quality={72}
+            />
+          </div>
+          <h3 class="h3">Community &amp; Events</h3>
+          <p>
+            Events, alumni connections, and recruiting touchpoints that extend
+            the DAML network.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FEATURED PROJECTS ==================== -->
+  <section class="section">
+    <div class="wrap">
+      <SectionHead
+        badge="Portfolio"
+        title={`Featured <span class="mark">projects</span>`}
+        lede="A selection of what our engineering teams shipped last semester, in Spring 2026 — from diffusion research to deployed client tools."
+      />
+
+      <div class="projects">
+        {featured.map((project, i) => <ProjectCard project={project} index={i} />)}
+      </div>
+
+      <div class="actions reveal" style="justify-content:center;margin-top:40px">
+        <a class="btn btn--ghost" href="/projects">
+          See all projects
+          <span class="ico" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    slot="cta"
+    badge="Get involved"
+    title={`Build alongside Duke's ML talent`}
+    description="Work with DAML members on rigorous ML projects, ranging from explorations to real-world applications. Whether you're a student or a prospective partner, join a team focused on building and prototyping."
+    primary={{ text: "Join us", href: site.joinFormUrl, external: true }}
+    secondary={{ text: "Meet the team", href: "/team" }}
+  />
+</Base>
