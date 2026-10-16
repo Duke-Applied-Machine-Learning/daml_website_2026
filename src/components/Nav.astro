@@ -113,23 +113,51 @@ const here = Astro.url.pathname.replace(/\/$/, "") || "/";
         // ink has a visible corner
         const smooth = (n) => n * n * (3 - 2 * n);
 
-        let queued = false;
-        const paint = () => {
-          queued = false;
+        // Where the bar should be for the current scroll position.
+        const goal = () => {
           const y = Math.max(window.scrollY, 0);
-          nav.style.setProperty("--nav-p", clamp01(y / GROUND_END).toFixed(4));
           const t = clamp01((y - FADE_FROM) / (FADE_TO - FADE_FROM));
-          nav.style.setProperty("--nav-t", smooth(t).toFixed(4));
+          return [clamp01(y / GROUND_END), smooth(t)];
         };
 
-        paint();
-        requestAnimationFrame(() => nav.classList.add("is-ready"));
+        // The bar eases toward its goal here, frame by frame, rather than
+        // through CSS transitions. A transition restarted on every scroll
+        // event let the wordmark, mark and links (which read --nav-t through
+        // --nav-fg) fall a frame out of step with it and flicker. Writing
+        // the eased value directly keeps every part of the bar on one value.
+        const TAU = 60; // ms; about 95% of the way there in 180ms
+        const still = matchMedia("(prefers-reduced-motion: reduce)");
+        let [p, t] = goal();
+        let last = 0;
+        let running = false;
+
+        const write = () => {
+          nav.style.setProperty("--nav-p", p.toFixed(4));
+          nav.style.setProperty("--nav-t", t.toFixed(4));
+        };
+
+        const frame = (now) => {
+          const [gp, gt] = goal();
+          const dt = last ? now - last : 16; // first frame of a run: one frame
+          const k = still.matches ? 1 : 1 - Math.exp(-dt / TAU);
+          p += (gp - p) * k;
+          t += (gt - t) * k;
+          if (Math.abs(gp - p) < 0.001 && Math.abs(gt - t) < 0.001) {
+            [p, t] = [gp, gt];
+            running = false;
+          }
+          last = running ? now : 0;
+          write();
+          if (running) requestAnimationFrame(frame);
+        };
+
+        write();
         window.addEventListener(
           "scroll",
           () => {
-            if (queued) return;
-            queued = true;
-            requestAnimationFrame(paint);
+            if (running) return;
+            running = true;
+            requestAnimationFrame(frame);
           },
           { passive: true },
         );

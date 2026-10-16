@@ -476,13 +476,8 @@ p {
 /* The bar crosses from dark glass to light glass as the homepage's dark hero
    leaves. Both values are scroll-linked; the type crossover is confined to a
    narrow smoothstepped band inside the ground's fade so the ambiguous
-   mid-colour only ever exists in passing. */
-@property --nav-t {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
-
+   mid-colour only ever exists in passing. The settle script in Nav.astro
+   eases them itself, so nothing here transitions them. */
 .nav {
   --nav-p: 0;
   --nav-t: 0;
@@ -511,9 +506,6 @@ p {
   background: var(--nav-skin);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   backdrop-filter: blur(16px) saturate(180%);
-  transition:
-    background 0.18s linear,
-    border-color 0.18s linear;
 }
 
 .nav__inner {
@@ -524,16 +516,6 @@ p {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-}
-
-/* Frame-to-frame smoothing only. Held back until after first paint so a page
-   loaded already-scrolled doesn't animate its header on arrival. */
-.nav.is-ready {
-  transition:
-    background 0.18s linear,
-    border-color 0.18s linear,
-    box-shadow 0.18s linear,
-    --nav-t 0.18s linear;
 }
 
 /* Pages that open on a light hero start the bar already settled. */
@@ -607,12 +589,15 @@ p {
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: -0.014em;
-  transition:
-    color 0.2s var(--ease),
-    background 0.2s var(--ease);
+  /* No colour transition at rest: the colour follows the scroll every frame,
+     and a transition restarted each frame lags it and then catches up. */
+  transition: background 0.2s var(--ease);
 }
 
 .nav__links a:hover {
+  transition:
+    color 0.2s var(--ease),
+    background 0.2s var(--ease);
   color: var(--nav-fg);
   background: color-mix(
     in srgb,
@@ -780,8 +765,16 @@ p {
    HERO — dark, for the homepage
    =========================================================== */
 
+/* At least a full window tall, so on a tall screen the dark hero meets the
+   bottom edge instead of stopping short over a strip of the white page. The
+   content stays centred in whatever extra height that adds. */
 .hero {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
   padding: calc(var(--nav-h) + 92px) 0 96px;
   background: var(--navy-deep);
   overflow: hidden;
