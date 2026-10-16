@@ -19,8 +19,7 @@ export const alumniCompanies: Company[] = [
   { name: "Wells Fargo", logo: "alumni/wellsfargo.png" },
   { name: "Palantir", logo: "alumni/palantir.png" },
   { name: "Mercor", logo: "alumni/mercor.png" },
-  // TODO: confirm this company's name — the orange circle logo
-  { name: "Alumni employer", logo: "alumni/orange.png" },
+  { name: "Applied Compute", logo: "alumni/appliedcompute.png" },
   { name: "Bank of America", logo: "alumni/bofa.png" },
 ];
 

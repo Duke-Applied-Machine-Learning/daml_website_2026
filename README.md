@@ -7,8 +7,9 @@ register — deliberately its own thing rather than a sibling of
 
 Astro was chosen over Next because every page here is static: the site ships as
 plain HTML with **no framework runtime**, and the only JavaScript on a page is
-~1.5 KB of inline script (header settle, mobile menu, scroll reveals, and the
-team tabs, and the AITP site's click-to-play lessons). The component model is still there for authoring.
+~1.5 KB of inline script (header settle, mobile menu, scroll reveals, the team
+tabs, and the AITP site's click-to-play lessons). The component model is still
+there for authoring.
 
 ## Running it
 
@@ -36,11 +37,14 @@ npm run build:aitp   # → aitp/dist/
 npm run check:aitp
 ```
 
-**Syllabus and lesson videos** live in `src/data/aitp.ts`, which feeds both
-this site and the main site's `/recruitment` page. When a new lesson goes up
-on YouTube, add `video: { id, title }` to that week (the id is the part after
-`watch?v=`). The lesson grid, the "Watch Week N" hero button, and the
-"lessons recorded" count all update from that.
+**The syllabus** lives in `src/data/aitp.ts`, which feeds both this site and
+the main site's `/recruitment` page. **Lesson videos** live in
+`src/data/aitp-videos.json`, keyed by week. A GitHub Action fills that in from
+the YouTube channel every 3 hours, for uploads titled "AITP <year> Lesson N: …"
+(setup steps in [YOUTUBE-SYNC-SETUP.md](YOUTUBE-SYNC-SETUP.md)). To add one by
+hand, add `"N": { "id", "title" }` to the file (the id is the part after
+`watch?v=`). The hero's latest-lecture player and the lesson grid
+both update from it.
 
 **Deploying:** create a second project on your host (Vercel, Netlify, etc.)
 from this same repo, with build command `npm run build:aitp` and output
@@ -110,6 +114,11 @@ glyph on a tinted panel, which keeps a mixed grid evenly weighted. `tier:
 row to `src/data/companies.ts`. Logos are auto-sized to equal visual area, so
 a wide wordmark and a square mark sit evenly.
 
+**Change the social share image** — the 1200×630 card shown when a link is
+pasted into iMessage, Slack, LinkedIn, etc. Each site has its own:
+`public/og.jpg` and `aitp/public/og.jpg`. Edit the copy at the top of
+`scripts/make-og-images.mjs` and run `npm run og-images` (needs Google Chrome).
+
 **Change the join form, contact address, or socials** — `src/data/site.ts`, in
 one place. `navLinks` there also drives the header, mobile menu, footer, and
 404 page at once.
@@ -140,7 +149,7 @@ from Duke navy through a signal blue to cyan.
 - **The page closes on a gradient plate**, not a dark slab — the CTA is a
   rounded panel that sits above a light footer.
 
-The header is a floating glass bar. On the homepage its ground and its type
+The header is a full-width glass bar pinned to the top. On the homepage its ground and its type
 both settle as you scroll away from the dark hero (two scroll-linked custom
 properties, with the type crossover confined to a narrow smoothstepped band so
 the ambiguous mid-colour never becomes a resting state). Pages that open on a

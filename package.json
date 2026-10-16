@@ -10,7 +10,8 @@
     "dev:aitp": "cd aitp && astro dev",
     "build:aitp": "cd aitp && astro build",
     "preview:aitp": "cd aitp && astro preview",
-    "check:aitp": "cd aitp && astro check"
+    "check:aitp": "cd aitp && astro check",
+    "og-images": "node scripts/make-og-images.mjs"
   },
   "keywords": [],
   "author": "",

@@ -36,9 +36,13 @@ const { badge, eyebrow, title, image } = Astro.props;
       {eyebrow && <span class="hero__eyebrow">{eyebrow}</span>}
       <h1 class="h1 hero__title" set:html={title} />
       <slot name="lede" />
-      <div class="hero__actions">
-        <slot name="actions" />
-      </div>
+      {
+        Astro.slots.has("actions") && (
+          <div class="hero__actions">
+            <slot name="actions" />
+          </div>
+        )
+      }
     </div>
 
     <slot name="after" />

@@ -280,6 +280,21 @@ h4 {
 p {
   color: var(--ink-2);
   max-width: 65ch;
+  /* no one-word last line in body copy */
+  text-wrap: pretty;
+}
+
+/* Short centred lines under a heading split into even lines rather than
+   leaving one or two words alone on the last. */
+.hero__lede,
+.phero__lede,
+.sec-head .lede,
+.cta p,
+.wall-head p,
+.strip__note,
+.catchup__prompt,
+.catchup__caption {
+  text-wrap: balance;
 }
 
 .lede {
@@ -949,6 +964,18 @@ p {
 
 .sec-head .lede {
   max-width: 60ch;
+}
+
+.lede a {
+  color: var(--blue);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.lede a:hover {
+  text-decoration-thickness: 2px;
 }
 
 /* ===========================================================
@@ -1954,6 +1981,11 @@ a.lesson__frame:hover img {
   transform: scale(1.04);
 }
 
+/* The hero player is several times wider, so the same zoom reads as more. */
+a.lesson__frame--large:hover img {
+  transform: scale(1.025);
+}
+
 .lesson__play {
   position: absolute;
   left: 50%;
@@ -2015,6 +2047,64 @@ a.lesson__frame:hover .lesson__play {
   font-size: 0.75rem;
   font-weight: 550;
   color: var(--blue);
+}
+
+/* ---------- the AITP hero's catch-up player ---------- */
+
+.catchup {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 48px;
+}
+
+.catchup__prompt {
+  font-size: 1.0625rem;
+  color: rgba(255, 255, 255, 0.78);
+  text-align: center;
+}
+
+.catchup__prompt b {
+  color: #fff;
+  font-weight: 600;
+}
+
+.catchup__player {
+  width: 100%;
+  max-width: 880px;
+  margin-top: 20px;
+  border-radius: var(--r-lg);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+.catchup__caption {
+  margin-top: 14px;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+}
+
+.catchup__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.lesson__frame--large .lesson__play {
+  width: 76px;
+  height: 76px;
+  margin: -38px 0 0 -38px;
+}
+
+.lesson__frame--large .lesson__play svg {
+  width: 30px;
+  height: 30px;
 }
 
 /* ---------- syllabus ---------- */

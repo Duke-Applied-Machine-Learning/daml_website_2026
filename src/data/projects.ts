@@ -139,7 +139,7 @@ export const projects: Project[] = [
   },
   {
     id: "liberata-topic-tagging",
-    title: "Liberata — Topic Tagging & Classification",
+    title: "Liberata – Topic Tagging & Classification",
     shot: "liberata-tagging.png",
     description:
       "A client project initiative focused on ML techniques in paper tagging and classification.",
@@ -149,7 +149,7 @@ export const projects: Project[] = [
   },
   {
     id: "liberata-author-share-estimation",
-    title: "Liberata — Author Attribution",
+    title: "Liberata – Author Attribution",
     shot: "liberata.png",
     description:
       "A client project initiative focused on ML techniques in author attribution.",

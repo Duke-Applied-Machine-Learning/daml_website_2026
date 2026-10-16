@@ -2,9 +2,13 @@
  * The AITP syllabus. Shared by the main site's /recruitment page and the
  * standalone AITP site in aitp/ — edit it here, both pick it up.
  *
- * `video` is a YouTube video id from the DAML channel. Leave it off for weeks
- * that haven't been recorded yet; the AITP site shows a placeholder instead.
+ * Lesson videos live in aitp-videos.json, keyed by week number. A GitHub
+ * Action (.github/workflows/sync-youtube.yml) fills it in from the DAML
+ * YouTube channel, matching uploads titled "AITP <year> Lesson <week>: …".
+ * Weeks with no entry show a placeholder on the AITP site.
  */
+import videos from "./aitp-videos.json";
+
 export interface Session {
   theme: string;
   topics: string;
@@ -19,10 +23,9 @@ export interface Week {
 
 export const aitpTerm = "Fall 2026";
 
-export const syllabus: Week[] = [
+const weeks: Omit<Week, "video">[] = [
   {
     week: 1,
-    video: { id: "yTkQPeINaQ0", title: "AITP 2026 Lesson 1: Introduction" },
     sessions: [
       {
         theme: "Intuition & ML landscape",
@@ -34,7 +37,6 @@ export const syllabus: Week[] = [
   },
   {
     week: 2,
-    video: { id: "4S-VpRuPlUE", title: "AITP 2026 Lesson 2: Math and Basics" },
     sessions: [
       {
         theme: "Math & metrics bootcamp",
@@ -46,10 +48,6 @@ export const syllabus: Week[] = [
   },
   {
     week: 3,
-    video: {
-      id: "Og3PrwOquc0",
-      title: "AITP 2026 Lesson 3: Supervised Learning",
-    },
     sessions: [
       {
         theme: "Simple supervised classification",
@@ -60,10 +58,6 @@ export const syllabus: Week[] = [
   },
   {
     week: 4,
-    video: {
-      id: "q_0hEjmQlk8",
-      title: "AITP 2026 Lesson 4: Unsupervised Learning",
-    },
     sessions: [
       {
         theme: "Simple unsupervised + signal/time-series methods",
@@ -141,6 +135,13 @@ export const syllabus: Week[] = [
     ],
   },
 ];
+
+const videoFor = videos as Record<string, Week["video"]>;
+
+export const syllabus: Week[] = weeks.map((w) => ({
+  ...w,
+  video: videoFor[w.week],
+}));
 
 /** Program logistics — the cards on /recruitment and the AITP site. */
 export const structureItems = [

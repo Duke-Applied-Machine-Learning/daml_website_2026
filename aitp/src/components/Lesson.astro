@@ -1,5 +1,6 @@
 ---
 import type { Week } from "@/data/aitp";
+import Player from "./Player.astro";
 
 interface Props {
   week: Week;
@@ -14,30 +15,7 @@ const label = `Week ${week.week}`;
 <article class="lesson reveal" id={`lesson-${week.week}`}>
   {
     video ? (
-      // A link to the video until clicked — the script below swaps in the
-      // player then, so ten iframes don't load with the page.
-      <a
-        class="lesson__frame"
-        href={`https://www.youtube.com/watch?v=${video.id}`}
-        data-video={video.id}
-        data-title={video.title}
-        target="_blank"
-        rel="noopener"
-        aria-label={`Play ${video.title}`}
-      >
-        <img
-          src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
-          alt=""
-          loading="lazy"
-          width="480"
-          height="360"
-        />
-        <span class="lesson__play" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M8 5.5v13l11-6.5z" fill="currentColor" />
-          </svg>
-        </span>
-      </a>
+      <Player video={video} />
     ) : (
       <div class="lesson__frame lesson__frame--soon">
         <span class="lesson__glyph" aria-hidden="true" />

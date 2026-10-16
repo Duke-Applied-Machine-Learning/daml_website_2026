@@ -3,6 +3,7 @@ interface Props {
   badge: string;
   /** Allows a <span class="mark"> for the gradient underline. */
   title: string;
+  /** Like the title, may carry inline HTML, e.g. a link. */
   lede?: string;
 }
 
@@ -12,6 +13,6 @@ const { badge, title, lede } = Astro.props;
 <div class="sec-head reveal">
   <span class="badge">{badge}</span>
   <h2 class="h2" set:html={title} />
-  {lede && <p class="lede">{lede}</p>}
+  {lede && <p class="lede" set:html={lede} />}
   <slot />
 </div>

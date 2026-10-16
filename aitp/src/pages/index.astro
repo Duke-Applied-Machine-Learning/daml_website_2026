@@ -4,6 +4,7 @@ import Hero from "@/components/Hero.astro";
 import SectionHead from "@/components/SectionHead.astro";
 import Cta from "@/components/Cta.astro";
 import Lesson from "../components/Lesson.astro";
+import Player from "../components/Player.astro";
 import { nav, footer } from "../nav";
 import { site } from "@/data/site";
 import {
@@ -31,7 +32,7 @@ const splitTopics = (topics: string) => topics.split(/,\s*(?![^()]*\))/);
 
 <Base
   title="AI Training Program"
-  description="DAML's AI Training Program: ten weeks from ML fundamentals through transformers, generative models, and agents. Syllabus and every recorded lesson."
+  description="DAML's AI Training Program: ten weeks from ML fundamentals through transformers, generative models, and agents. Watch the latest lecture, every past one, and the full syllabus."
   nav={nav}
   footer={footer}
 >
@@ -41,37 +42,33 @@ const splitTopics = (topics: string) => topics.split(/,\s*(?![^()]*\))/);
     image={heroBg}
   >
     <p slot="lede" class="hero__lede">
-      DAML's structured entry point into ML engineering — from intuition and
+      DAML's structured entry point into ML engineering, from intuition and
       metrics through deep learning, transformers, generative models, and
-      agents. Every lesson is recorded and posted here.
+      agents.
     </p>
 
-    <Fragment slot="actions">
-      {
-        latest && (
-          <a class="btn btn--light" href={`#lesson-${latest.week}`}>
-            Watch Week {latest.week}
-            <span class="ico" aria-hidden="true">→</span>
-          </a>
-        )
-      }
-      <a class="btn btn--glass" href="#syllabus">View syllabus</a>
-    </Fragment>
-
-    <div slot="after" class="stats">
-      <div class="stat">
-        <b>{syllabus.length}</b>
-        <span>Weeks</span>
-      </div>
-      <div class="stat">
-        <b>{recorded.length}</b>
-        <span>Lessons recorded</span>
-      </div>
-      <div class="stat">
-        <b>1</b>
-        <span>Judged final showcase</span>
-      </div>
-    </div>
+    {
+      latest?.video && (
+        <div slot="after" class="catchup">
+          <p class="catchup__prompt">
+            Missed last week's lecture? Catch up on <b>Week {latest.week}</b>.
+          </p>
+          <div class="catchup__player">
+            <Player video={latest.video} large />
+          </div>
+          <p class="catchup__caption">
+            {latest.sessions.map((s) => s.theme).join(" · ")}
+          </p>
+          <div class="catchup__actions">
+            <a class="btn btn--light" href="#lessons">
+              All lectures
+              <span class="ico" aria-hidden="true">↓</span>
+            </a>
+            <a class="btn btn--glass" href="#syllabus">View syllabus</a>
+          </div>
+        </div>
+      )
+    }
   </Hero>
 
   <!-- ==================== LESSONS ==================== -->
@@ -79,7 +76,7 @@ const splitTopics = (topics: string) => topics.split(/,\s*(?![^()]*\))/);
     <div class="wrap">
       <SectionHead
         badge="Lessons"
-        title={`Every session, <span class="mark">on demand</span>`}
+        title={`Watch past <span class="mark">lectures</span>`}
         lede="Missed a Saturday or want a refresher? Recordings go up on our YouTube channel after each week's workshop."
       >
         <a class="btn btn--ghost" href={site.youtube} target="_blank" rel="noopener">
@@ -99,7 +96,7 @@ const splitTopics = (topics: string) => topics.split(/,\s*(?![^()]*\))/);
     <div class="wrap">
       <SectionHead
         badge="Curriculum"
-        title={`${syllabus.length} weeks, <span class="mark">first principles to agents</span>`}
+        title={`The ${syllabus.length}-week <span class="mark">syllabus</span>`}
         lede="Each week pairs a workshop with hands-on work, building from classical methods to the architectures behind today's models."
       />
 
@@ -149,7 +146,7 @@ const splitTopics = (topics: string) => topics.split(/,\s*(?![^()]*\))/);
     <div class="wrap">
       <SectionHead
         badge="Logistics"
-        title={`Expectations &amp; <span class="mark">information</span>`}
+        title={`Schedule and <span class="mark">requirements</span>`}
         lede="What the semester asks of you, and what you get back for it."
       />
 

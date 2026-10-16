@@ -1,0 +1,37 @@
+---
+interface Props {
+  video: { id: string; title: string };
+  /** Hero use: a sharper thumbnail, loaded eagerly. */
+  large?: boolean;
+}
+
+const { video, large = false } = Astro.props;
+const thumb = (q: string) => `https://i.ytimg.com/vi/${video.id}/${q}.jpg`;
+---
+
+{/* A link to the video until clicked — the page script swaps in the YouTube
+    player then, so no iframe loads with the page. Without JS the link just
+    opens the video on YouTube. */}
+<a
+  class:list={["lesson__frame", large && "lesson__frame--large"]}
+  href={`https://www.youtube.com/watch?v=${video.id}`}
+  data-video={video.id}
+  data-title={video.title}
+  target="_blank"
+  rel="noopener"
+  aria-label={`Play ${video.title}`}
+>
+  <img
+    src={thumb(large ? "maxresdefault" : "hqdefault")}
+    alt=""
+    loading={large ? "eager" : "lazy"}
+    width={large ? 1280 : 480}
+    height={large ? 720 : 360}
+    onerror={large ? `this.onerror=null;this.src='${thumb("hqdefault")}'` : undefined}
+  />
+  <span class="lesson__play" aria-hidden="true">
+    <svg viewBox="0 0 24 24">
+      <path d="M8 5.5v13l11-6.5z" fill="currentColor"></path>
+    </svg>
+  </span>
+</a>

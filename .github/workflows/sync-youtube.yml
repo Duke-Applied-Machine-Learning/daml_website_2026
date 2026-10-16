@@ -1,0 +1,32 @@
+# Checks the DAML YouTube channel for new AITP lesson videos and commits them
+# to src/data/aitp-videos.json. The host redeploys on that push, so the AITP
+# site picks up a new lesson within a few hours of it going up.
+name: Sync YouTube lessons
+
+on:
+  schedule:
+    - cron: "17 */3 * * *" # every 3 hours (UTC), off the hour to dodge the rush
+  workflow_dispatch: # "Run workflow" button on the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node scripts/sync-youtube.mjs
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+      - name: Commit if anything changed
+        run: |
+          git diff --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add src/data/aitp-videos.json
+          git commit -m "Add new AITP lesson video from YouTube"
+          git push
