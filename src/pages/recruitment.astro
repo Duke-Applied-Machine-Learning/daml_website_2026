@@ -43,8 +43,6 @@ const projectPhase = {
       <a
         class="btn btn--primary"
         href={site.aitpUrl}
-        target="_blank"
-        rel="noopener"
       >
         AITP Site
         <span class="ico" aria-hidden="true">→</span>
@@ -98,7 +96,7 @@ const projectPhase = {
       <SectionHead
         badge="Curriculum"
         title="Syllabus"
-        lede={`10 weeks, from probability and evaluation metrics through CNNs, transformers, diffusion models, and AI agents, with the project phase opening after Week 2. Every lesson is recorded on the <a href="${site.aitpUrl}" target="_blank" rel="noopener">AITP site</a>.`}
+        lede={`10 weeks, from probability and evaluation metrics through CNNs, transformers, diffusion models, and AI agents, with the project phase opening after Week 2. Every lesson is recorded on the <a href="${site.aitpUrl}">AITP site</a>.`}
       />
 
       <div class="rows">
@@ -134,7 +132,7 @@ const projectPhase = {
       </div>
 
       <div class="actions reveal" style="justify-content:center;margin-top:40px">
-        <a class="btn btn--ghost" href={site.aitpUrl} target="_blank" rel="noopener">
+        <a class="btn btn--ghost" href={site.aitpUrl}>
           Lessons &amp; recordings
           <span class="ico" aria-hidden="true">→</span>
         </a>
@@ -186,7 +184,7 @@ const projectPhase = {
     badge="Stay connected"
     title="Ready to join?"
     description="Join us on our mailing list to stay updated on the next AITP session."
-    primary={{ text: "AITP Site", href: site.aitpUrl, external: true }}
+    primary={{ text: "AITP Site", href: site.aitpUrl }}
     secondary={{
       text: "Join the mailing list",
       href: site.joinFormUrl,

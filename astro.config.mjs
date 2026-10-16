@@ -6,10 +6,15 @@ import sitemap from "@astrojs/sitemap";
 // exist to redirect.
 const unlisted = /\/(404|students|partnerWithUs)\/?$/;
 
+// On Vercel, build against the project's production address, which is the
+// *.vercel.app URL until a custom domain is attached and dukedaml.com after.
+// Share images and canonical links are absolute URLs built from `site`, so
+// pointing them at a domain that isn't serving this build breaks link previews.
+const vercelHost = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+
 export default defineConfig({
-  // The production domain. Canonical URLs, og:url, share images and the
-  // sitemap are all built from it, so it must match where the site is served.
-  site: "https://dukedaml.com",
+  // Canonical URLs, og:url, share images and the sitemap are all built from it.
+  site: vercelHost ? `https://${vercelHost}` : "https://dukedaml.com",
   integrations: [
     sitemap({ filter: (page) => !unlisted.test(new URL(page).pathname) }),
   ],

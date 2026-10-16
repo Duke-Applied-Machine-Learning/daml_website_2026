@@ -9,8 +9,13 @@ import sitemap from "@astrojs/sitemap";
 // inside the folder and ends up looking in aitp/aitp.) It shares the main
 // site's stylesheet, layout, nav, footer and data through the `@/` alias (see
 // tsconfig.json), so the two stay one design.
+// See the main astro.config.mjs: on Vercel, share images and canonical links
+// follow the project's production address (*.vercel.app until the aitp
+// subdomain is attached).
+const vercelHost = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+
 export default defineConfig({
-  site: "https://aitp.dukedaml.com",
+  site: vercelHost ? `https://${vercelHost}` : "https://aitp.dukedaml.com",
   integrations: [
     sitemap({ filter: (page) => !/\/404\/?$/.test(new URL(page).pathname) }),
   ],
