@@ -1,4 +1,4 @@
-import { site } from "@/data/site";
+import { navLinks, site } from "@/data/site";
 
 /** Section links on the AITP home page. Absolute from "/" so the 404 page can
  *  use them too. */
@@ -15,13 +15,9 @@ export const nav = {
   cta: { href: site.joinFormUrl, label: "Join DAML" },
 };
 
+/** The main site's footer, unchanged: its page links point back at
+ *  dukedaml.com, since those pages don't exist on this domain. */
 export const footer = {
   homeHref: site.url,
-  links,
-  more: [
-    { href: site.url, label: "DAML main site" },
-    { href: new URL("/recruitment", site.url).href, label: "Recruitment" },
-    { href: site.youtube, label: "YouTube", external: true },
-    { href: `mailto:${site.email}`, label: "Contact" },
-  ],
+  links: navLinks.map((l) => ({ ...l, href: new URL(l.href, site.url).href })),
 };

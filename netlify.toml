@@ -1,0 +1,14 @@
+# Netlify only. Real 301s for the old routes; `force` is needed because Astro
+# also builds a fallback redirect page at each path, and Netlify otherwise
+# serves an existing file instead of redirecting.
+[[redirects]]
+  from = "/students"
+  to = "/team"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/partnerWithUs"
+  to = "/partner"
+  status = 301
+  force = true

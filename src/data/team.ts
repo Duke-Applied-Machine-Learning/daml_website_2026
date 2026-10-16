@@ -68,6 +68,7 @@ export const members: TeamMember[] = [
     role: "AITP Instructor",
     photo: "Steve_Yin.jpg",
     major: "BME, CS, Math",
+    year: "2029",
   },
   {
     name: "Clara Bartusiak",
@@ -83,6 +84,7 @@ export const members: TeamMember[] = [
     role: "Outreach Coordinator",
     photo: "Arnav_Dhar.jpg",
     major: "CS, Math",
+    year: "2029",
   },
   {
     name: "Erica Zhang",

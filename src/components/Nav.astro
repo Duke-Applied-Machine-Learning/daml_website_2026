@@ -1,5 +1,6 @@
 ---
 import { navLinks, site } from "@/data/site";
+import SocialIcon from "./SocialIcon.astro";
 
 interface Link {
   href: string;
@@ -66,9 +67,27 @@ const here = Astro.url.pathname.replace(/\/$/, "") || "/";
     {links.map((link) => <a href={link.href}>{link.label}</a>)}
   </nav>
   <div class="menu__foot">
-    <a href={cta.href} target="_blank" rel="noopener">{cta.label}</a>
-    <a href={site.instagram} target="_blank" rel="noopener">Instagram</a>
-    <a href={site.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+    <a class="menu__cta" href={cta.href} target="_blank" rel="noopener">
+      {cta.label}
+    </a>
+    <a
+      class="menu__social"
+      href={site.linkedin}
+      aria-label={`${site.short} on LinkedIn`}
+      target="_blank"
+      rel="noopener"
+    >
+      <SocialIcon name="linkedin" />
+    </a>
+    <a
+      class="menu__social"
+      href={site.instagram}
+      aria-label={`${site.short} on Instagram`}
+      target="_blank"
+      rel="noopener"
+    >
+      <SocialIcon name="instagram" />
+    </a>
   </div>
 </div>
 

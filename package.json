@@ -1,7 +1,7 @@
 {
   "name": "daml-website",
   "version": "1.0.0",
-  "description": "Duke Applied Machine Learning \u2014 website",
+  "description": "Duke Applied Machine Learning — website",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -18,6 +18,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/geist": "^5.3.0",
     "astro": "^7.3.2",
     "sharp": "^0.35.4"

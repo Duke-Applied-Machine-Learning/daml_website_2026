@@ -125,6 +125,22 @@ const splitTopics = (topics: string) => topics.split(/,\s*(?![^()]*\))/);
                     )}
                   </div>
                 ))}
+                {w.readings?.length ? (
+                  <div class="wk__reading">
+                    <b>Optional reading</b>
+                    <ul>
+                      {w.readings.map((r) => (
+                        <li>
+                          <a href={r.url} target="_blank" rel="noopener">
+                            {r.title}
+                          </a>
+                          <span class="wk__source">{r.source}</span>
+                          <p class="wk__desc">{r.description}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </div>
               {w.video ? (
                 <a class="link wk__watch" href={`#lesson-${w.week}`}>

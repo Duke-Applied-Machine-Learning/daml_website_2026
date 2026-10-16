@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aitp.dukedaml.com/sitemap-index.xml

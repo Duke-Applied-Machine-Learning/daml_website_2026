@@ -95,6 +95,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Short pages put the footer at the bottom of the window rather than
+   leaving white space under it. */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+body > main {
+  flex: 1 0 auto;
+}
+
 body.no-scroll {
   overflow: hidden;
 }
@@ -720,22 +733,47 @@ p {
 
 .menu__foot {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 4px;
   margin-top: 10px;
-  padding-top: 12px;
+  padding-top: 14px;
   border-top: 1px solid var(--line);
 }
 
-.menu__foot a {
-  flex: 1;
-  text-align: center;
-  padding: 10px;
-  border-radius: var(--r);
-  background: var(--bg-2);
-  color: var(--ink-2);
+/* the same black pill as the desktop "Join us" */
+.menu__cta {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 18px;
+  margin-right: auto;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
   text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.9375rem;
+  font-weight: 550;
+  letter-spacing: -0.014em;
+}
+
+.menu__social {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  color: var(--ink-2);
+}
+
+.menu__social:active,
+.menu__social:hover {
+  background: var(--bg-2);
+  color: var(--ink);
+}
+
+.menu__social svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* ===========================================================
@@ -936,6 +974,24 @@ p {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+/* 404: the message centred in whatever height the footer leaves, padded
+   tightly enough that the page fits a laptop window without scrolling */
+main:has(> .phero--404) {
+  display: flex;
+  flex-direction: column;
+}
+
+.phero--404 {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--nav-h) + 24px) 0 24px;
+}
+
+.phero--404 > .wrap {
+  width: 100%;
 }
 
 /* pages whose first band follows straight on with no plate */
@@ -2170,6 +2226,59 @@ a.lesson__frame:hover .lesson__play {
   font-size: 0.75rem;
   font-weight: 550;
   color: var(--ink);
+}
+
+
+/* optional supplements — kept quieter than the session itself */
+.wk__reading {
+  padding-top: 18px;
+  border-top: 1px dashed var(--line-2);
+}
+
+.wk__reading b {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.75rem;
+  font-weight: 550;
+  color: var(--ink);
+}
+
+.wk__reading ul {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.wk__reading li {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.wk__reading a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.wk__reading a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.wk__reading a::after {
+  content: " ↗";
+  font-size: 0.75em;
+}
+
+.wk__source {
+  margin-left: 8px;
+  color: var(--ink-3);
+}
+
+.wk__desc {
+  margin-top: 1px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-2);
 }
 
 .wk__watch {

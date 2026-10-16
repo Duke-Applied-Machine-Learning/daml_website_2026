@@ -1,17 +1,15 @@
 ---
 import Base from "@/layouts/Base.astro";
-import { navLinks } from "@/data/site";
 ---
 
 <Base title="Page not found" solidNav>
-  <section class="phero phero--plain">
+  <section class="phero phero--404">
     <div class="wrap">
       <div class="phero__inner">
         <span class="badge">Error 404</span>
         <h1 class="h1">This page doesn't exist</h1>
         <p class="phero__lede">
-          The link may be out of date, or the page may have moved. Everything
-          else is still where you left it.
+          The link may be out of date, or the page may have moved.
         </p>
         <div class="phero__actions">
           <a class="btn btn--primary" href="/">
@@ -23,23 +21,4 @@ import { navLinks } from "@/data/site";
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
-    <div class="wrap wrap--narrow">
-      <div class="rows">
-        {
-          navLinks.map((link) => (
-            <a class="row row--link" href={link.href}>
-              <span class="row__key">{link.label}</span>
-              <span class="row__body">
-                <h3>{link.href}</h3>
-              </span>
-              <span class="row__go" aria-hidden="true">
-                &#8594;
-              </span>
-            </a>
-          ))
-        }
-      </div>
-    </div>
-  </section>
 </Base>

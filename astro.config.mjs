@@ -1,11 +1,18 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
+
+// Pages a search engine shouldn't list: the 404, and the old routes that only
+// exist to redirect.
+const unlisted = /\/(404|students|partnerWithUs)\/?$/;
 
 export default defineConfig({
-  // ⚠️ PLACEHOLDER — set this to the real production domain before deploying.
-  // It is what canonical and og:url tags are built from, so a wrong value here
-  // points every page's canonical at a domain you don't own.
+  // The production domain. Canonical URLs, og:url, share images and the
+  // sitemap are all built from it, so it must match where the site is served.
   site: "https://dukedaml.com",
+  integrations: [
+    sitemap({ filter: (page) => !unlisted.test(new URL(page).pathname) }),
+  ],
   // The old routes, kept alive for existing links and indexed pages.
   redirects: {
     "/partnerWithUs": "/partner",

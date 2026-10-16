@@ -30,11 +30,6 @@ export const projectShots = strip(
   "/src/assets/project_images/",
 );
 
-export const logos = strip(
-  import.meta.glob("/src/assets/logos/*.png", { eager: true }) as Glob,
-  "/src/assets/logos/",
-);
-
 /** The showcase strip, ordered 1..12 rather than lexically (1, 10, 11, 2...). */
 export const showcase: ImageMetadata[] = Object.entries(
   import.meta.glob("/src/assets/showcase/*.jpeg", { eager: true }) as Glob,

@@ -38,7 +38,9 @@ npm run check:aitp
 ```
 
 **The syllabus** lives in `src/data/aitp.ts`, which feeds both this site and
-the main site's `/recruitment` page. **Lesson videos** live in
+the main site's `/recruitment` page. Each week can carry 0–3 optional `readings`
+(title, source, description, url), which show as "Optional reading" on the AITP syllabus
+only. **Lesson videos** live in
 `src/data/aitp-videos.json`, keyed by week. A GitHub Action fills that in from
 the YouTube channel every 3 hours, for uploads titled "AITP <year> Lesson N: …"
 (setup steps in [YOUTUBE-SYNC-SETUP.md](YOUTUBE-SYNC-SETUP.md)). To add one by
@@ -49,12 +51,6 @@ both update from it.
 **Deploying:** create a second project on your host (Vercel, Netlify, etc.)
 from this same repo, with build command `npm run build:aitp` and output
 directory `aitp/dist`, then point the `aitp` subdomain at it.
-
-## ⚠️ Before deploying
-
-Set the real domain in [`astro.config.mjs`](astro.config.mjs). It is the base
-for every page's `<link rel="canonical">` and `og:url`, and it currently holds a
-placeholder.
 
 ## Layout
 
@@ -91,8 +87,14 @@ public/         served verbatim: favicon.png, mark.png (the δαμλ glyph)
 | `/404`           | Not found                               |
 
 The old site's `/students` and `/partnerWithUs` redirect to `/team` and
-`/partner` (the `redirects` block in `astro.config.mjs`), so existing links
-and indexed pages keep working.
+`/partner`, so existing links and indexed pages keep working. Hosts that read
+redirect config serve a real 301: `vercel.json` (Vercel), `netlify.toml`
+(Netlify) and `public/_redirects` (Cloudflare Pages). Delete the ones for hosts
+you don't use. On any other host, the `redirects` block in `astro.config.mjs`
+still forwards visitors with a fallback page.
+
+Both sites also publish a `sitemap-index.xml` (via `@astrojs/sitemap`) and a
+`robots.txt` pointing to it.
 
 ## Editing content
 

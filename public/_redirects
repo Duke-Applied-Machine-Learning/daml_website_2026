@@ -1,0 +1,7 @@
+# Old routes from the previous site. Cloudflare Pages follows these even
+# though Astro also builds a fallback page at each path; Netlify needs the
+# forced rules in netlify.toml for that reason.
+/students        /team     301
+/students/       /team     301
+/partnerWithUs   /partner  301
+/partnerWithUs/  /partner  301

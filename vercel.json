@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/students", "destination": "/team", "permanent": true },
+    { "source": "/partnerWithUs", "destination": "/partner", "permanent": true }
+  ]
+}
