@@ -35,8 +35,8 @@ export const members: TeamMember[] = [
     team: "Exec",
     role: "Data Science Director",
     photo: "Danielle_Li.jpg",
-    major: "Math, CS",
-    year: "2028",
+    major: "Chem, CS",
+    year: "2029",
   },
   {
     name: "Ruben Marcus",
@@ -99,7 +99,7 @@ export const members: TeamMember[] = [
     team: "Outreach",
     role: "Outreach Coordinator",
     photo: "Aryan_Garg.jpg",
-    major: "CS, Neuro",
+    major: "Stats, Neuro",
     year: "2029",
   },
   {
