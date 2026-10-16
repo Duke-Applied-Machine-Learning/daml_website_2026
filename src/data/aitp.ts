@@ -320,12 +320,12 @@ export const syllabus: Week[] = weeks.map((w) => ({
 export const structureItems = [
   {
     label: "Weekly cadence",
-    detail: "Workshops run Saturdays 2:00–3:00 pm in Social Sciences 139.",
+    detail: "Workshops run Saturdays 12:00–1:00 pm in Social Sciences 139.",
   },
   {
     label: "Project sessions",
     detail:
-      "Dedicated project work sessions follow immediately after from 3:00–4:00 pm with mentor check-ins.",
+      "Dedicated project work sessions follow immediately after from 1:00–2:00 pm with mentor check-ins.",
   },
   {
     label: "Mentorship",
