@@ -3,7 +3,8 @@ export type Team = (typeof teams)[number];
 
 export type TeamMember = {
   name: string;
-  team: Team;
+  /** One team, or several for members who sit on more than one. */
+  team: Team | Team[];
   /** The member's role within DAML. */
   role: string;
   major?: string;
@@ -72,7 +73,7 @@ export const members: TeamMember[] = [
   },
   {
     name: "Clara Bartusiak",
-    team: "Outreach",
+    team: ["Exec", "Outreach"],
     role: "Director of Outreach",
     photo: "clara_bartusiak.jpg",
     major: "ECE, CS",
@@ -104,7 +105,7 @@ export const members: TeamMember[] = [
   },
   {
     name: "Ashley Park",
-    team: "Marketing",
+    team: ["Exec", "Marketing"],
     role: "Director of Marketing",
     photo: "ashley_park.jpg",
     major: "CS, Stats",
@@ -143,4 +144,5 @@ export const members: TeamMember[] = [
   },
 ];
 
-export const byTeam = (t: Team) => members.filter((m) => m.team === t);
+export const byTeam = (t: Team) =>
+  members.filter((m) => [m.team].flat().includes(t));

@@ -101,7 +101,8 @@ Both sites also publish a `sitemap-index.xml` (via `@astrojs/sitemap`) and a
 Most changes are a data file, not markup.
 
 **Add a team member** — add a row to `src/data/team.ts` with its `team`
-(`"Exec"`, `"Outreach"` or `"Marketing"` — each is a tab on `/team`), and drop the
+(`"Exec"`, `"Outreach"` or `"Marketing"` — each is a tab on `/team`); use an array like
+`["Exec", "Outreach"]` to show someone on more than one tab. Drop the
 headshot in `src/assets/headshots/` named `first_last.jpg`. The `photo` field
 is that filename. Leave `photo` off and the card falls back to `blank.jpg`;
 `major` and `year` are optional too.
