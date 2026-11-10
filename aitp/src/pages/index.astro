@@ -22,7 +22,7 @@ const recorded = syllabus.filter((w) => w.video);
 const latest = recorded.at(-1);
 // Recorded lessons, then one card for the next week rather than a wall of
 // placeholders — the syllabus below already lists what's still to come.
-const nextUp = syllabus.find((w) => !w.video);
+const nextUp = syllabus.find((w) => !w.video && w.week > (latest?.week ?? 0));
 const lessonCards = nextUp ? [...recorded, nextUp] : recorded;
 
 // Commas inside a parenthetical stay with it: "limitations (AGI, BCI,

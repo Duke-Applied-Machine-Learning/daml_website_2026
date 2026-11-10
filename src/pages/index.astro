@@ -15,7 +15,7 @@ import { alumniCompanies, partnerCompanies } from "@/data/companies";
 import heroBg from "@/assets/hero/daml_background.png";
 import trainingPhoto from "@/assets/aitp-2026-knn.jpg";
 import teamPhoto from "@/assets/daml_team_photo.jpg";
-import socialPhoto from "@/assets/social_photo.jpeg";
+import eventsPhoto from "@/assets/meta-recruiting-event.jpg";
 
 const stats = [
   { value: "250+", label: "Members" },
@@ -50,7 +50,7 @@ const pillars = [
     span: "b-2",
   },
   {
-    title: "Community & Events",
+    title: "Recruiting & Events",
     detail:
       "Events, alumni connections, and recruiting touchpoints that extend the DAML network.",
     span: "b-2",
@@ -249,7 +249,7 @@ const featured = projects.filter((p) => p.tier === "featured").slice(0, 3);
       </div>
 
       <div class="wall-head reveal">
-        <h3 class="h3">Companies we've built projects with</h3>
+        <h3 class="h3">Companies we've worked with</h3>
         <p>From early-stage startups to big tech.</p>
       </div>
       <LogoWall companies={partnerCompanies} />
@@ -288,15 +288,15 @@ const featured = projects.filter((p) => p.tier === "featured").slice(0, 3);
         <article class="card reveal reveal--2">
           <div class="card__media">
             <Image
-              src={socialPhoto}
-              alt="A DAML social event"
+              src={eventsPhoto}
+              alt="DAML members with Meta guests at a recruiting event"
               widths={[520, 800, 1100]}
               sizes="(max-width: 1024px) 92vw, 540px"
               loading="lazy"
               quality={72}
             />
           </div>
-          <h3 class="h3">Community &amp; Events</h3>
+          <h3 class="h3">Recruiting &amp; Events</h3>
           <p>
             Events, alumni connections, and recruiting touchpoints that extend
             the DAML network.

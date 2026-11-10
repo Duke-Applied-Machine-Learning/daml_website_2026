@@ -23,9 +23,11 @@ export const alumniCompanies: Company[] = [
   { name: "Bank of America", logo: "alumni/bofa.png" },
 ];
 
-/** Organizations DAML teams have built projects with. */
+/** Organizations DAML has partnered with, on projects or otherwise. */
 export const partnerCompanies: Company[] = [
   { name: "IBM", logo: "partners/ibm.png" },
+  { name: "Amazon", logo: "partners/amazon.png" },
+  { name: "Meta", logo: "partners/meta.png" },
   { name: "Duke Health", logo: "partners/dukehealth.png" },
   { name: "Coursera", logo: "partners/coursera.png" },
   { name: "Twitter", logo: "partners/twitter.png" },
